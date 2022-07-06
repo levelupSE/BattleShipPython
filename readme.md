@@ -2,20 +2,17 @@
 
 Battleship Python is a simple script that automatically generates battleship levels as per your configuration. It even includes a few functions to make it playable.
 
-## How it Works
+## Table of Content
+- [How to use](#how-to-use)
+- [The Code Class](#accessing-the-code-class)
+- [How it Works](#how-it-works)
 
-- First the game's grid is generated using nested lists. Each box/square can be accessed by using BS.grid[Y][X]
- ![Grid](https://drive.google.com/uc?export=view&id=1xUQw9BmmyZPKnm4Vsp5A0Xbtx3vomxdC)
-- In order to generate the levels, the rule set below is followed:
-- - Create a random X and Y point and check if the point is an empty cell.
- ![RandomPoint](https://drive.google.com/uc?export=view&id=1SUcy-r_DToI3WyGk8fPksg35w5SIX8tR)
-- - Iterate through a list of shuffled directions. 
-- - In each direction check if the size of the ship fits. If not, repeat step 1.
-![SizeCheck](https://drive.google.com/uc?export=view&id=1UpRraxboFfMbADJ6QQ-sOWo6Uw5namcV)
-- - If the size fits, use that direction to check if the point is valid by checking if there is no ship in it's path and include the gap/padding if required.
-![GapCheck](https://drive.google.com/uc?export=view&id=12fhaJCTLdFIS8MHr8GDx4nrDxBwoZCcD)
-- - If all the steps work, it would add the ship to the grid. Else it would repeat the steps until all points have been attempted. Beyond which it would not ignore and not include that ship.
-![Done](https://drive.google.com/uc?export=view&id=1wvFFxwilDu4rfS0XGG1pV0FG6IdZAkc4)
+## How to use
+You can either call the class by either
+- Copy pasting the class or,
+- Importing ```using import BattleShipGame```
+and referencing the game as ```game = BattleShipGame.BS()```
+
 
 ## Accessing the Code Class
 
@@ -45,3 +42,18 @@ gridHor (list)
 gridVert (list)
 grid (list)
 ```
+
+## How it Works
+
+- First the game's grid is generated using nested lists. Each box/square can be accessed by using BS.grid[Y][X]
+ ![Grid](https://drive.google.com/uc?export=view&id=1xUQw9BmmyZPKnm4Vsp5A0Xbtx3vomxdC)
+- In order to generate the levels, the rule set below is followed:
+- - Create a random X and Y point and check if the point is an empty cell.
+ ![RandomPoint](https://drive.google.com/uc?export=view&id=1SUcy-r_DToI3WyGk8fPksg35w5SIX8tR)
+- - Iterate through a list of shuffled directions. 
+- - In each direction check if the size of the ship fits. If not, repeat step 1.
+![SizeCheck](https://drive.google.com/uc?export=view&id=1UpRraxboFfMbADJ6QQ-sOWo6Uw5namcV)
+- - If the size fits, use that direction to check if the point is valid by checking if there is no ship in it's path and include the gap/padding if required.
+![GapCheck](https://drive.google.com/uc?export=view&id=12fhaJCTLdFIS8MHr8GDx4nrDxBwoZCcD)
+- - If all the steps work, it would add the ship to the grid. Else it would repeat the steps until all points have been attempted. Beyond which it would not ignore and not include that ship.
+![Done](https://drive.google.com/uc?export=view&id=1wvFFxwilDu4rfS0XGG1pV0FG6IdZAkc4)
