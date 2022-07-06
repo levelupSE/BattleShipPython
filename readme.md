@@ -10,7 +10,7 @@ Battleship Python is a simple script that automatically generates battleship lev
 ## How to use
 You can either call the class by either
 - Copy pasting the class or,
-- Importing ```using import BattleShipGame```
+- Importing using ```import BattleShipGame```
 and referencing the game as ```game = BattleShipGame.BS()```
 
 
