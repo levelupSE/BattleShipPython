@@ -1,35 +1,12 @@
 from os import system, name
 
-from BattleShipGame import BS
+from game import GameCli
+
+def get_user_inputs():
+    while True:
+        yield input('Your Move > ')
 
 if __name__ == '__main__':
-    def clear():
-       # for windows
-       if name == 'nt':
-          _ = system('cls')
+    cli = GameCli(get_user_inputs())
+    cli.run()
 
-       # for mac and linux
-       else:
-          _ = system('clear')
-
-    game = BS()
-    game.printGrid()
-    while game.gameOver == False:
-        pos = input("Input Position (eg: A0): ")
-        if pos.lower() == "show":
-            clear()
-            print("Ships Left:", game.shipCount())
-            game.printGrid(False)
-        else:
-
-                clear()
-                print([pos[0].capitalize(),pos[1]])
-                if game.attackShip([pos[0].capitalize(),pos[1]]):
-                    print("HIT!")
-                else:
-                    print("Miss!")
-                print("Ships Left:", game.shipCount())
-                game.printGrid()
-
-
-    print("Game Over")
