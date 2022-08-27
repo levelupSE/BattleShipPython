@@ -1,6 +1,6 @@
 from os import system, name
 
-from game import GameCli
+from src.game_cli import GameCli
 
 def get_user_inputs():
     while True:

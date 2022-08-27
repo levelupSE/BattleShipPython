@@ -50,10 +50,16 @@ grid (list)
 - In order to generate the levels, the rule set below is followed:
 - - Create a random X and Y point and check if the point is an empty cell.
  ![RandomPoint](https://drive.google.com/uc?export=view&id=1SUcy-r_DToI3WyGk8fPksg35w5SIX8tR)
-- - Iterate through a list of shuffled directions. 
+- - Iterate through a list of shuffled directions.
 - - In each direction check if the size of the ship fits. If not, repeat step 1.
 ![SizeCheck](https://drive.google.com/uc?export=view&id=1UpRraxboFfMbADJ6QQ-sOWo6Uw5namcV)
 - - If the size fits, use that direction to check if the point is valid by checking if there is no ship in it's path and include the gap/padding if required.
 ![GapCheck](https://drive.google.com/uc?export=view&id=12fhaJCTLdFIS8MHr8GDx4nrDxBwoZCcD)
 - - If all the steps work, it would add the ship to the grid. Else it would repeat the steps until all points have been attempted. Beyond which it would not ignore and not include that ship.
 ![Done](https://drive.google.com/uc?export=view&id=1wvFFxwilDu4rfS0XGG1pV0FG6IdZAkc4)
+
+## Run unit tests
+
+```
+python3 -m unittest test/test* -v
+```
