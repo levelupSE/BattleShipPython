@@ -23,9 +23,9 @@ def parse_user_input(raw_user_input):
 
     match = re.search(valid_attack_pattern, user_input)
     if match and match.lastindex == 2:
-        col = match.group(1)
-        row = match.group(2)
-        return (UserActionType.ATTACK, (col, row))
+        row = match.group(1)
+        col = match.group(2)
+        return (UserActionType.ATTACK, (row, col))
 
     return (UserActionType.INVALID, None)
 
@@ -33,8 +33,9 @@ def parse_user_input(raw_user_input):
 class GameCli:
     '''Manages interactions between the user and the game.'''
 
-    def __init__(self, user_inputs):
+    def __init__(self, user_inputs, game):
         self.user_inputs = user_inputs
+        self.game = game
 
     def run(self):
         '''Parses and applies user provided commands to the game'''
@@ -44,16 +45,29 @@ class GameCli:
             if action_type == UserActionType.SHOW:
                 self._display_board_layout()
             elif action_type == UserActionType.ATTACK:
-                (col, row) = action_info
-                self._attack(col, row)
+                (row, col) = action_info
+                self._attack(row, col)
             else:
                 self._display_invalid_user_input_message()
 
-    def _display_board_layout(self):
-        print('TODO: display board')
+            if self.game.game_over():
+                break
 
-    def _attack(self, col, row):
-        print('TODO: attack')
+        self._display_board_layout()
+        print('Game is over')
+
+
+    def _display_board_layout(self):
+        board = self.game.get_board_layout()
+        for row in board:
+            print(row)
+
+    def _attack(self, row, col):
+        hit = self.game.attack(row, col)
+        if hit:
+            print('Ship hit!')
+        else:
+            print('Ship missed!')
 
     def _display_invalid_user_input_message(self):
         print('TODO: display invalid message')
