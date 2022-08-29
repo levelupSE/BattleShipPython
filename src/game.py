@@ -18,7 +18,11 @@ class CoordInfo:
     def __repr__(self):
         if self.status == CoordStatus.SHIP_HIT:
             return self.ship_name
-        return self.status.name
+        if self.status == CoordStatus.SHIP_MISSED:
+            return 'x'
+        if self.status == CoordStatus.EMPTY:
+            return ' '
+        return 'n/a'
 
 def index_to_letter(index):
     a_int = 97
@@ -47,8 +51,8 @@ class Game:
 
     def get_board_layout(self):
         return [
-            [self._get_coord_status(index_to_letter(row_index), str(col_index)) for row_index in range(self.row_length) ]
-            for col_index in range(1, self.col_length + 1)
+            [self._get_coord_status(index_to_letter(row_index), str(col_index)) for col_index in range(1, self.col_length) ]
+            for row_index in range(self.row_length)
         ]
 
     def _get_coord_status(self, row, col):
