@@ -71,10 +71,10 @@ class TestShipPlacer(unittest.TestCase):
         placer = ShipPlacer(config['ships'], config['rows'], config['columns'], {}, placement_fn)
         ship_coords  = placer.build_ship_coords()
 
-        self.assertTrue(ship_coords[('a', '2')], 'B')
-        self.assertTrue(ship_coords[('a', '3')], 'B')
-        self.assertTrue(ship_coords[('c', '5')], 'C')
-        self.assertTrue(ship_coords[('d', '5')], 'C')
+        self.assertTrue(ship_coords[(0, 1)], 'B')
+        self.assertTrue(ship_coords[(0, 2)], 'B')
+        self.assertTrue(ship_coords[(2, 4)], 'C')
+        self.assertTrue(ship_coords[(3, 4)], 'C')
 
     def test_get_valid_ship_placements(self):
         ship_coords = {

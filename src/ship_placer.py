@@ -7,10 +7,6 @@ class Direction(Enum):
     DOWN = 3
     LEFT = 4
 
-def index_to_letter(index):
-    a_int = 97
-    return chr(a_int + index)
-
 def get_coords(rows, columns):
     return [
         (row_index, col_index)
@@ -96,10 +92,7 @@ class ShipPlacer:
                 raise Exception('Could not place all ships on board')
 
         # transform to coords expected by game e.g. A1 -> A10
-        return {
-            (index_to_letter(row), str(col + 1)): ship_name
-            for (row, col), ship_name in self.ship_coords.items()
-        }
+        return self.ship_coords
 
     def _attempt_placement(self, ship_coords, ship_config):
         for potential_placement in self._get_valid_ship_placements(ship_coords, ship_config, self.rows, self.columns):
