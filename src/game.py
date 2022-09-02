@@ -35,9 +35,12 @@ def letter_to_index(letter):
 
 def to_coordinates(row, col):
     '''Translates user provided input to zero index based matrix coordates: e.g. A1 -> (0, 0).'''
-    row_index = letter_to_index(row)
-    col_index = int(col) - 1
-    return (row_index, col_index)
+    try:
+        row_index = letter_to_index(row)
+        col_index = int(col) - 1
+        return (row_index, col_index)
+    except:
+        raise ValueError(f'invalid input: {row} {col}')
 
 
 class Game:
