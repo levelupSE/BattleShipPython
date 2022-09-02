@@ -2,6 +2,7 @@ from os import system, name
 
 from src.game_cli import GameCli
 from src.game import Game
+from src.view_manager import ViewManager
 from src.ship_placer import ShipPlacer
 
 
@@ -21,8 +22,10 @@ if __name__ == '__main__':
 
     ship_placer = ShipPlacer(config['ships'], config['rows'], config['columns'], {})
     ship_coords = ship_placer.build_ship_coords()
+
     game = Game(ship_coords)
 
-    cli = GameCli(get_user_inputs(), game)
+    view_manager = ViewManager()
+    cli = GameCli(get_user_inputs(), game, view_manager)
     cli.run()
 
