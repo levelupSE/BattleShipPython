@@ -10,6 +10,11 @@ class CoordStatus(Enum):
     def __repr__(self):
         return self.name
 
+class AttackResult(Enum):
+    SUCCESS = 1
+    MISSED = 2
+    INVALID = 3
+
 @dataclass
 class CoordInfo:
     status: CoordStatus
@@ -28,6 +33,10 @@ def index_to_letter(index):
     a_int = 97
     return chr(a_int + index)
 
+def letter_to_index(letter):
+    letter_int = ord(letter)
+    return letter_int - 97
+
 class Game:
     def __init__(self, ship_coords, col_length = 10, row_length = 10):
         self.attacked_coords = set()
@@ -38,12 +47,19 @@ class Game:
     def attack(self, row, col):
         coord = (row, col)
 
+        if not self._on_board(row, col):
+            return AttackResult.INVALID
+
         # already attacked that position
         if coord in self.attacked_coords:
-            return False
+            return AttackResult.MISSED
 
         self.attacked_coords.add(coord)
-        return coord in self.ship_coords
+        if coord in self.ship_coords:
+            return AttackResult.SUCCESS
+
+        return AttackResult.MISSED
+
 
     def game_over(self):
         attacked_ship_coords = self.attacked_coords.intersection(set(self.ship_coords.keys()))
@@ -51,7 +67,7 @@ class Game:
 
     def get_board_layout(self):
         return [
-            [self._get_coord_status(index_to_letter(row_index), str(col_index)) for col_index in range(1, self.col_length) ]
+            [self._get_coord_status(index_to_letter(row_index), str(col_index)) for col_index in range(1, self.col_length + 1) ]
             for row_index in range(self.row_length)
         ]
 
@@ -65,3 +81,13 @@ class Game:
             return CoordInfo(CoordStatus.SHIP_MISSED, None)
 
         return CoordInfo(CoordStatus.EMPTY, None)
+
+    def _on_board(self, row, col):
+        row_index = letter_to_index(row) + 1
+        col_index = int(col)
+        return (
+            col_index >= 1 and \
+            col_index <= self.col_length and \
+            row_index >= 1 and \
+            row_index <= self.row_length
+        )

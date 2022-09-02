@@ -1,6 +1,7 @@
 
 import re
 from enum import Enum
+from src.game import AttackResult
 
 
 class UserActionType(Enum):
@@ -13,8 +14,8 @@ class UserActionType(Enum):
 def parse_user_input(raw_user_input):
     # user term to display the game board
     show = 'show'
-    # starts with a letter and ends with a number
-    valid_attack_pattern = r'(^[a-z]{1})([0-9]$)'
+    # starts with a letter and ends with numbers
+    valid_attack_pattern = r'(^[a-z]{1})([0-9]+$)'
 
     user_input = raw_user_input.lower().strip()
 
@@ -63,11 +64,15 @@ class GameCli:
             print(row)
 
     def _attack(self, row, col):
-        hit = self.game.attack(row, col)
-        if hit:
+        result = self.game.attack(row, col)
+        if result == AttackResult.SUCCESS:
             print('Ship hit!')
-        else:
+        elif result == AttackResult.MISSED:
             print('Ship missed!')
+        elif result == AttackResult.INVALID:
+            print('Invalid coordinates!')
+        else:
+            raise Exception('There is an unhandled attack type')
 
     def _display_invalid_user_input_message(self):
         print('TODO: display invalid message')

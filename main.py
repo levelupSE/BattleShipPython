@@ -14,12 +14,12 @@ if __name__ == '__main__':
         'columns': 10,
         'rows': 10,
         'ships': [
-            {'name': 'B', 'length': 2},
-            {'name': 'C', 'length': 3}
+            {'name': 'B', 'length': 10},
+            {'name': 'C', 'length': 10}
         ]
     }
 
-    ship_placer = ShipPlacer(config)
+    ship_placer = ShipPlacer(config['ships'], config['rows'], config['columns'], {})
     ship_coords = ship_placer.build_ship_coords()
     game = Game(ship_coords)
 
