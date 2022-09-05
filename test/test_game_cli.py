@@ -1,8 +1,8 @@
 import unittest
-from unittest.mock import call, Mock
+from unittest.mock import call, Mock, ANY
 
 from src.game_cli import parse_user_input, UserActionType, GameCli
-from src.game import CoordStatus, CoordInfo, AttackResult
+from src.game import CoordStatus, CoordInfo, AttackResult, BoardLayout
 
 class TestGameCli(unittest.TestCase):
 
@@ -27,16 +27,6 @@ class TestGameCli(unittest.TestCase):
         self.assertEqual(action_type, UserActionType.EXIT)
         self.assertEqual(action_info, None)
 
-    def test_game_cli(self):
-        game = Mock()
-        view_manager = Mock()
-        cli = GameCli([], game, view_manager)
-        game.get_board_layout.return_value = []
-
-        cli.run()
-
-        view_manager.display.assert_has_calls([call(''), call('Game is over')])
-
     def test_game_cli_show(self):
         game = Mock()
         view_manager = Mock()
@@ -48,14 +38,17 @@ class TestGameCli(unittest.TestCase):
         missed = CoordInfo(CoordStatus.SHIP_MISSED, None)
         empty = CoordInfo(CoordStatus.EMPTY, None)
 
-        game.get_board_layout.return_value = [
+        coords_info = [
             [hit, missed],
             [empty, empty]
         ]
+        layout = BoardLayout(coords_info, ['A', 'B'], ['1', '2'])
+        game.get_board_layout_v2.return_value = layout
 
         cli.run()
 
-        view_manager.display.assert_has_calls([call('A,x\n , '), call('Game is over')])
+        expected_board_text = '  1,2\nA A,x\nB  , '
+        view_manager.display.assert_has_calls([call(expected_board_text), call(expected_board_text), call('Game is over')])
 
 
     def test_game_cli_attack(self):
@@ -65,12 +58,14 @@ class TestGameCli(unittest.TestCase):
 
         cli = GameCli(user_inputs, game, view_manager)
 
-        game.get_board_layout.return_value = []
+        layout = BoardLayout([], [], [])
+        game.get_board_layout_v2.return_value = layout
+
         game.attack.return_value = AttackResult.SUCCESS
         cli.run()
 
         game.attack.assert_called_with('a', '1')
-        view_manager.display.assert_has_calls([call('Ship hit!'), call(''), call('Game is over')])
+        view_manager.display.assert_has_calls([call('Ship hit!'), call(ANY), call('Game is over')])
 
 
     def test_invalid_input(self):
@@ -80,7 +75,8 @@ class TestGameCli(unittest.TestCase):
 
         cli = GameCli(user_inputs, game, view_manager)
 
-        game.get_board_layout.return_value = []
+        layout = BoardLayout([], [], [])
+        game.get_board_layout_v2.return_value = layout
         cli.run()
 
-        view_manager.display.assert_has_calls([call('Invalid user input'), call(''), call('Game is over')])
+        view_manager.display.assert_has_calls([call('Invalid user input'), call(ANY), call('Game is over')])

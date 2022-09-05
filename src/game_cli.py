@@ -71,10 +71,11 @@ class GameCli:
 
 
     def _display_board_layout(self):
-        board = self.game.get_board_layout()
-        board_text = '\n'.join([','.join([str(coord) for coord in row]) for row in board])
-        self.view_manager.display(board_text)
+        board_v2 = self.game.get_board_layout_v2()
 
+        col_header = '  ' + ','.join(board_v2.column_labels) + '\n'
+        rows = '\n'.join([ board_v2.row_labels[idx] + ' ' + ','.join([str(coord) for coord in row]) for idx, row in enumerate(board_v2.coord_info)])
+        self.view_manager.display(col_header + rows)
 
     def _attack(self, row, col):
         result = self.game.attack(row, col)

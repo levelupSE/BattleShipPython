@@ -1,5 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass
+from typing import List
 
 class CoordStatus(Enum):
     '''Status of a board coordinate'''
@@ -29,9 +30,20 @@ class CoordInfo:
             return ' '
         return 'n/a'
 
+@dataclass
+class BoardLayout:
+    coord_info: List[List[CoordInfo]]
+    row_labels: List[str]
+    column_labels: List[str]
+
+
 def letter_to_index(letter):
     letter_int = ord(letter)
     return letter_int - 97
+
+def index_to_letter(idx):
+    letter = chr(idx + 97)
+    return letter.upper()
 
 def to_coordinates(row, col):
     '''Translates user provided input to zero index based matrix coordates: e.g. A1 -> (0, 0).'''
@@ -76,6 +88,17 @@ class Game:
             [self._get_coord_status(row_index, col_index) for col_index in range(self.col_length) ]
             for row_index in range(self.row_length)
         ]
+
+    def get_board_layout_v2(self):
+        coord_info = [
+            [self._get_coord_status(row_index, col_index) for col_index in range(self.col_length) ]
+            for row_index in range(self.row_length)
+        ]
+
+        row_labels = [index_to_letter(i) for i in range(self.row_length)]
+        col_labels = [str(i + 1) for i in range(self.col_length)]
+
+        return BoardLayout(coord_info, row_labels, col_labels)
 
     def _get_coord_status(self, row, col):
         coord = (row, col)
